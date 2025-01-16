@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>レビュー収集ツール</title>
 
     <!-- Google Fonts -->
@@ -17,6 +16,7 @@
             color: #333;
             margin: 0;
             padding: 0;
+            position: relative;
         }
 
         h1 {
@@ -74,6 +74,33 @@
             background-color: #45a049;
         }
 
+        .review-container {
+            margin-top: 30px;
+        }
+
+        .review-text {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+        }
+
+        .copy-all-button {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .copy-all-button:hover {
+            background-color: #0056b3;
+        }
+
         .footer {
             text-align: center;
             margin-top: 50px;
@@ -81,21 +108,40 @@
             color: #777;
         }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .container {
-                padding: 10px;
-            }
-
-            input[type="url"], button {
-                font-size: 1rem;
-                padding: 10px;
-            }
+        /* Loading spinner style */
+        .loader {
+            display: none;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Overlay style for the loading state */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay .loader {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -103,16 +149,31 @@
     <h1>レビュー収集ツール</h1>
 
     <div class="container">
-        <form action="/download" method="POST" id="review-form">
+        <form id="reviewForm" action="/fetch" method="POST" onsubmit="showLoader()">
             <label for="url">楽天レビューURL:</label>
             <input type="url" id="url" name="url" required>
             <button type="submit">実行</button>
         </form>
+
+        <!-- Overlay for loading state -->
+        <div class="overlay" id="overlay">
+            <div class="loader" id="loader"></div>
+        </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2025 レビュー収集ツール</p>
-    </div>
+    <script>
+        // ローディングスピナーとオーバーレイを表示する関数
+        function showLoader() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        // フォーム送信後にローディングインジケーターを表示
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            // ローディングインジケーターとオーバーレイを表示
+            showLoader();
+        });
+    </script>
+    
 </body>
 </html>
 

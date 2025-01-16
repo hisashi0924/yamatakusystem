@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product_title }} - レビュー結果</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .back-btn {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            background-color: #7f8c8d;
+        }
+
+
+        .copy-btn {
+            background-color: #2ebccc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+
+
+        .download-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+        }
+
+
+        .copy-btn:hover {
+            background-color: #1d9fa1;
+        }
+
+        .download-btn:hover {
+            background-color: #1f8d51;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>{{ product_title }} のレビュー結果</h1>
+
+        <form action="javascript:void(0);" onsubmit="copyAllReviews()">
+            <button class="copy-btn" type="submit">全てのレビューをコピー</button>
+        </form>
+
+        <form action="/download" method="POST">
+            <button class="download-btn" type="submit">Excelをダウンロード</button>
+        </form>
+
+        <form action="/" method="GET">
+            <button class="back-btn" type="submit">戻る</button>
+        </form>
+
+
+        <ul id="reviews">
+            {% for review in reviews %}
+            <li>{{ review }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <script>
+        function copyAllReviews() {
+            // レビューリストの全内容を取得
+            var reviews = document.getElementById('reviews').innerText;
+
+            // テキストを一時的な入力フィールドにコピーして実行
+            var textArea = document.createElement('textarea');
+            textArea.value = reviews;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+
+            // コピー成功時のメッセージ
+            alert('全てのレビューがコピーされました！');
+        }
+    </script>
+
+</body>
+</html>
+
